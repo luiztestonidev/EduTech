@@ -44,7 +44,7 @@ public static void main(String[] args) {
                 System.out.println("Encerrando o sistema...");
                 break;
             default:
-                System.out.println("Opção inválida!");
+                System.out.println("Opção inválida!!");
         }
 
     } while (opcao != 0);
