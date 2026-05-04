@@ -17,7 +17,7 @@ public static void main(String[] args) {
     int opcao;
 
     do {
-        System.out.println("\n=== MENU PRINCIPAL ===");
+        System.out.println("\n==== MENU PRINCIPAL ====");
         System.out.println("1 - Novo Pedido");
         System.out.println("2 - Consultar Cardápio por Categoria");
         System.out.println("3 - Calcular Troco");
