@@ -1,79 +1,121 @@
 package org.example;
+
 import java.util.Scanner;
 
-static String[] nomes = {
-        "ByteBurger Clássico", "ByteBurger Duplo",
-        "Batata Frita P", "Batata Frita G",
-        "Refrigerante Lata", "Suco Natural", "Água"
-};
-static double[] precos = {22.90, 29.90, 12.00, 18.00, 7.00, 10.00, 4.00};
+public class Main {
 
-static double totalGeral = 0;   // caixa geral
-static double descontoAtual = 0; // desconto do sorteio
+    static String[] nomes = {
+            "ByteBurger Clássico", "ByteBurger Duplo",
+            "Batata Frita P", "Batata Frita G",
+            "Refrigerante Lata", "Suco Natural", "Água"
+    };
 
-public static void main(String[] args) {
+    static double[] precos = {22.90, 29.90, 12.00, 18.00, 7.00, 10.00, 4.00};
 
-    Scanner scanner = new Scanner(System.in);
-    int opcao;
+    static int[] codigos = {1, 2, 3, 4, 5, 6, 7};
 
-    do {
-        System.out.println("\n==== MENU PRINCIPAL ====");
-        System.out.println("1 - Novo Pedido");
-        System.out.println("2 - Consultar Cardápio por Categoria");
-        System.out.println("3 - Calcular Troco");
-        System.out.println("4 - Sorteio do Dia");
-        System.out.println("0 - Encerrar");
+    static double totalGeral = 0;
+    static double descontoAtual = 0;
+
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+        int opcao;
+
+        do {
+            System.out.println("\n==== MENU PRINCIPAL ====");
+            System.out.println("1 - Novo Pedido");
+            System.out.println("2 - Consultar Cardápio por Categoria");
+            System.out.println("3 - Calcular Troco");
+            System.out.println("4 - Sorteio do Dia");
+            System.out.println("0 - Encerrar");
+            System.out.print("Escolha: ");
+
+            opcao = scanner.nextInt();
+
+            switch (opcao) {
+                case 1:
+                    novoPedido(scanner);
+                    break;
+                case 2:
+                    consultarCategoria(scanner);
+                    break;
+                case 3:
+                    calcularTroco(scanner);
+                    break;
+                case 4:
+                    sorteio();
+                    break;
+                case 0:
+                    System.out.println("Encerrando o sistema...");
+                    break;
+                default:
+                    System.out.println("Opção inválida!!");
+            }
+
+        } while (opcao != 0);
+
+        scanner.close();
+    }
+  
+    static void consultarCategoria(Scanner scanner) {
+
+        System.out.println("\n1 - Lanches");
+        System.out.println("2 - Acompanhamentos");
+        System.out.println("3 - Bebidas");
         System.out.print("Escolha: ");
 
-        opcao = scanner.nextInt();
+        int subMenu = scanner.nextInt();
 
-        switch (opcao) {
+        switch (subMenu) {
             case 1:
-                novoPedido(scanner);
+                System.out.println("\nLanches:");
+                for (int i = 0; i < 2; i++) {
+                    System.out.printf("%d - %s R$ %.2f%n", codigos[i], nomes[i], precos[i]);
+                }
                 break;
+
             case 2:
-                consultarCategoria(scanner);
+                System.out.println("\nAcompanhamentos:");
+                for (int i = 2; i < 4; i++) {
+                    System.out.printf("%d - %s R$ %.2f%n", codigos[i], nomes[i], precos[i]);
+                }
                 break;
+
             case 3:
-                calcularTroco(scanner);
+                System.out.println("\nBebidas:");
+                for (int i = 4; i < 7; i++) {
+                    System.out.printf("%d - %s R$ %.2f%n", codigos[i], nomes[i], precos[i]);
+                }
                 break;
-            case 4:
-                sorteio();
-                break;
-            case 0:
-                System.out.println("Encerrando o sistema...");
-                break;
+
             default:
-                System.out.println("Opção inválida!!");
+                System.out.println("Opção inválida!");
         }
-
-    } while (opcao != 0);
-
-    scanner.close();
-}
-
-static void calcularTroco(Scanner scanner) {
-
-    if (totalGeral == 0) {
-        System.out.println("Nenhum pedido foi realizado ainda!");
-        return;
     }
 
-    System.out.printf("Total de todos os pedidos: R$ %.2f%n", totalGeral);
+    static void calcularTroco(Scanner scanner) {
 
-    double pago;
-
-    do {
-        System.out.print("Valor pago pelo cliente: R$ ");
-        pago = scanner.nextDouble();
-
-        if (pago < totalGeral) {
-            System.out.println("Valor insuficiente!");
+        if (totalGeral == 0) {
+            System.out.println("Nenhum pedido foi realizado ainda!");
+            return;
         }
 
-    } while (pago < totalGeral);
+        System.out.printf("Total de todos os pedidos: R$ %.2f%n", totalGeral);
 
-    double troco = pago - totalGeral;
+        double pago;
 
-    System.out.printf("Troco: R$ %.2f%n", troco);
-}
+        do {
+            System.out.print("Valor pago pelo cliente: R$ ");
+            pago = scanner.nextDouble();
+
+            if (pago < totalGeral) {
+                System.out.println("Valor insuficiente!");
+            }
+
+        } while (pago < totalGeral);
+
+        double troco = pago - totalGeral;
+
+        System.out.printf("Troco: R$ %.2f%n", troco);
+    }
