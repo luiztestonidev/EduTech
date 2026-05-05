@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
@@ -57,7 +58,77 @@ public class Main {
 
         scanner.close();
     }
-  
+    static void novoPedido(Scanner scanner) {
+
+        scanner.nextLine();
+
+        System.out.print("Nome do cliente: ");
+        String cliente = scanner.nextLine();
+
+        String[] itensPedido = new String[100];
+        int contadorItens = 0;
+        double total = 0;
+
+        char continuar;
+
+        do {
+            System.out.println("\n--- CARDÁPIO ---");
+            for (int i = 0; i < codigos.length; i++) {
+                System.out.printf("%d - %s R$ %.2f%n", codigos[i], nomes[i], precos[i]);
+            }
+
+            int codigoDigitado;
+            boolean encontrado;
+
+            do {
+                System.out.print("Digite o código do item: ");
+                codigoDigitado = scanner.nextInt();
+                encontrado = false;
+
+                for (int i = 0; i < codigos.length; i++) {
+                    if (codigos[i] == codigoDigitado) {
+
+                        double precoFinal = precos[i];
+
+                        // aplica desconto do sorteio
+                        if (descontoAtual > 0) {
+                            precoFinal -= descontoAtual;
+                        }
+
+                        itensPedido[contadorItens++] =
+                                nomes[i] + " - R$ " + String.format("%.2f", precoFinal);
+
+                        total += precoFinal;
+
+                        encontrado = true;
+                        break;
+                    }
+                }
+
+                if (!encontrado) {
+                    System.out.println("Código inválido! Tente novamente.");
+                }
+
+            } while (!encontrado);
+
+            System.out.print("Adicionar mais itens? (S/N): ");
+            continuar = scanner.next().toUpperCase().charAt(0);
+
+        } while (continuar == 'S');
+
+        System.out.println("\n--- RESUMO DO PEDIDO ---");
+        System.out.println("Cliente: " + cliente);
+
+        System.out.println("Itens:");
+        for (int i = 0; i < contadorItens; i++) {
+            System.out.println("- " + itensPedido[i]);
+        }
+
+        System.out.printf("Total do pedido: R$ %.2f%n", total);
+
+        totalGeral += total;
+    }
+    
     static void consultarCategoria(Scanner scanner) {
 
         System.out.println("\n1 - Lanches");
@@ -119,3 +190,18 @@ public class Main {
 
         System.out.printf("Troco: R$ %.2f%n", troco);
     }
+
+    static void sorteio() {
+
+        Random rand = new Random();
+        int sorteado = rand.nextInt(7);
+
+        descontoAtual = precos[sorteado] * 0.8;
+
+        System.out.println("\n ITEM SORTEADO DO DIA!");
+        System.out.println("Item: " + nomes[sorteado]);
+
+        System.out.printf("Preço original: R$ %.2f%n", precos[sorteado]);
+        System.out.printf("Com 20%% de desconto: R$ %.2f%n", descontoAtual);
+    }
+}
