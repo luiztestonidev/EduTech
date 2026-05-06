@@ -2,7 +2,7 @@ package org.example;
 
 import java.util.Random;
 import java.util.Scanner;
-
+//CONCLUIDO
 public class Main {
 
     static String[] nomes = {
